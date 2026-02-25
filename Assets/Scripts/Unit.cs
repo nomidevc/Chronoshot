@@ -7,6 +7,11 @@ public class Unit : MonoBehaviour
     
     private Vector3 m_targetPosition;
 
+    void Awake()
+    {
+        m_targetPosition = transform.position;
+    }
+
     void Update()
     {
         MoveToTargetPosition();
