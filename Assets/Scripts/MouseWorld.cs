@@ -3,12 +3,18 @@ using UnityEngine;
 public class MouseWorld : MonoBehaviour
 {
     public static MouseWorld Instance { get; private set; }
+    
+    [SerializeField] private LayerMask _mousePlaneLayerMask;
+   
     void Awake()
     {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
     }
-    [SerializeField] private LayerMask _mousePlaneLayerMask;
-    
     
     public static Vector3 GetMouseWorldPosition()
     {
