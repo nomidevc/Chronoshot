@@ -25,22 +25,22 @@ public class LevelGrid : MonoBehaviour
     
     public void SetUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
-        m_gridSystem.GetGridObject(gridPosition).SetUnit(unit);
+        m_gridSystem.GetGridObject(gridPosition).AddUnit(unit);
     }
     
-    public Unit GetUnitAtGridPosition(GridPosition gridPosition)
+    public List<Unit> GetUnitsAtGridPosition(GridPosition gridPosition)
     {
-        return m_gridSystem.GetGridObject(gridPosition).GetUnit();
+        return m_gridSystem.GetGridObject(gridPosition).GetUnitList();
     }
     
-    public void ClearUnitAtGridPosition(GridPosition gridPosition)
+    public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
-        m_gridSystem.GetGridObject(gridPosition).ClearUnit();
+        m_gridSystem.GetGridObject(gridPosition).RemoveUnit(unit);
     }
     
     public void ChangeUnitGridPosition(Unit unit, GridPosition fromGridPosition, GridPosition toGridPosition)
     {
-        ClearUnitAtGridPosition(fromGridPosition);
+        RemoveUnitAtGridPosition(fromGridPosition, unit);
         SetUnitAtGridPosition(toGridPosition, unit);
     }
     

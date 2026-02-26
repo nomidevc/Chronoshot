@@ -1,33 +1,40 @@
+using System.Collections.Generic;
 public class GridObject
 {
     private GridSystem m_gridSystem;
     private GridPosition m_gridPosition;
-    private Unit m_unit;
+    private List<Unit> m_unitList;
 
     public GridObject(GridSystem gridSystem, GridPosition gridPosition)
     {
         m_gridPosition = gridPosition;
         m_gridSystem = gridSystem;
+        
+        m_unitList = new List<Unit>();
     }
     
-    public void SetUnit(Unit unit)
+    public void AddUnit(Unit unit)
     {
-        m_unit = unit;
+        m_unitList.Add(unit);
+    }
+
+    public List<Unit> GetUnitList()
+    {
+        return m_unitList;
     }
     
-    public Unit GetUnit()
+    public void RemoveUnit(Unit unit)
     {
-        return m_unit;
-    }
-    
-    public void ClearUnit()
-    {
-        m_unit = null;
+        m_unitList.Remove(unit);
     }
 
     public override string ToString()
     {
+        string unitListString = "";
+        foreach (Unit unit in m_unitList)        {
+            unitListString += unit.ToString() + '\n';
+        }
         return m_gridPosition.ToString() + '\n'
-            + m_unit;
+            + unitListString;
     }
 }
