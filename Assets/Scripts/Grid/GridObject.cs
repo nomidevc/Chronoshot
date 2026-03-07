@@ -27,6 +27,11 @@ public class GridObject
     {
         m_unitList.Remove(unit);
     }
+    
+    public bool HasAnyUnit()
+    {
+        return m_unitList.Count > 0;
+    }
 
     public override string ToString()
     {
