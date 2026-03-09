@@ -1,16 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
-    [SerializeField] private Unit _unit;
     
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            MoveAction moveAction = _unit.GetMoveAction();
-            moveAction.GetValidActionGridPositionList();
-        }
-    }
 }
