@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SpinAction : BaseAction
@@ -17,14 +18,16 @@ public class SpinAction : BaseAction
         }
     }
     
-    public void StartSpin()
+    public void StartSpin(Action onSpinComplete)
     {
+        m_onActionComplete = onSpinComplete;
         m_isActive = true;
         m_rotationAmount = 0f;
     }
     
     public void StopSpin()
     { 
+        m_onActionComplete?.Invoke();
         m_isActive = false;
         m_rotationAmount = 0f;
     }
