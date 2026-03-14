@@ -31,4 +31,9 @@ public class SpinAction : BaseAction
         m_isActive = false;
         m_rotationAmount = 0f;
     }
+
+    public override string GetActionName()
+    {
+        return "Spin";
+    }
 }
