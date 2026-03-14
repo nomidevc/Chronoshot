@@ -4,17 +4,22 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private GridPosition m_currentGridPosition;
+    private BaseAction[] m_baseActionArray;
     private MoveAction m_moveAction;
     private SpinAction m_spinAction;
-    
+
+    void Awake()
+    {
+        m_moveAction = GetComponent<MoveAction>();
+        m_spinAction = GetComponent<SpinAction>();
+        m_baseActionArray = GetComponents<BaseAction>();
+    }
+
 
     void Start()
     {
         m_currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridPosition(m_currentGridPosition, this);
-        
-        m_moveAction = GetComponent<MoveAction>();
-        m_spinAction = GetComponent<SpinAction>();
     }
 
     void Update()
@@ -36,6 +41,8 @@ public class Unit : MonoBehaviour
     public MoveAction GetMoveAction() => m_moveAction;
     
     public SpinAction GetSpinAction() => m_spinAction;
+    
+    public BaseAction[] GetBaseActionArray() => m_baseActionArray;
     
     public GridPosition GetGridPosition() => m_currentGridPosition;
 
