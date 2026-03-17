@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.15471691, g: 0.094289735, b: 0.094289735, a: 0.61960787}
+  m_Color: {r: 0.2981131, g: 0.237928, b: 0.237928, a: 0.43529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 2, y: 2}
+  m_EffectDistance: {x: 0, y: 0}
   m_UseGraphicAlpha: 1
 --- !u!114 &6685615954717778032
 MonoBehaviour:
@@ -300,4 +300,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24e78e41c2a733d43a4992e17d52b1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _actionButton: {fileID: 4432553381787604317}
   _actionNameText: {fileID: 4776000106345492630}
