@@ -32,6 +32,11 @@ public class SpinAction : BaseAction
         return new List<GridPosition>() { currentGridPosition };
     }
 
+    public override int GetActionPointsCost()
+    {
+        return 2;
+    }
+
     private void StopSpin()
     { 
         m_onActionComplete?.Invoke();

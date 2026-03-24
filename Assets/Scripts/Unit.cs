@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -7,6 +6,7 @@ public class Unit : MonoBehaviour
     private BaseAction[] m_baseActionArray;
     private MoveAction m_moveAction;
     private SpinAction m_spinAction;
+    private int m_actionPoint = 2;
 
     void Awake()
     {
@@ -38,9 +38,31 @@ public class Unit : MonoBehaviour
         }
     }
     
+    private bool CanSpendActionPoints(BaseAction baseAction)
+    {
+        return m_actionPoint >= baseAction.GetActionPointsCost();
+    }
+
+    private void SpendActionPoints(BaseAction baseAction)
+    {
+        m_actionPoint -= baseAction.GetActionPointsCost();
+    }
+    
+    public bool TrySpendActionPoints(BaseAction baseAction)
+    {
+        if (CanSpendActionPoints(baseAction))
+        {
+            SpendActionPoints(baseAction);
+            return true;
+        }
+        return false;
+    }
+    
     public MoveAction GetMoveAction() => m_moveAction;
     
     public SpinAction GetSpinAction() => m_spinAction;
+
+    public int GetRemainingActionPoints() => m_actionPoint;
     
     public BaseAction[] GetBaseActionArray() => m_baseActionArray;
     

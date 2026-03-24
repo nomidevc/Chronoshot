@@ -7,7 +7,7 @@ public class UnitActionSystem : MonoBehaviour
     public static UnitActionSystem Instance { get; private set; }
     public event EventHandler OnSelectedUnitChanged;
     public event EventHandler OnSelectedActionChanged;
-    
+    public event EventHandler OnActionStarted;
     public event EventHandler<bool> OnBusyChanged;
     
     [SerializeField] private Unit _selectedUnit;
@@ -65,11 +65,12 @@ public class UnitActionSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetMouseWorldPosition());
-            if(m_selectedAction.IsValidActionGridPosition(mouseGridPosition))
-            {
-                SetBusy();
-                m_selectedAction.TakeAction(mouseGridPosition, ClearBusy);
-            }
+            if(!m_selectedAction.IsValidActionGridPosition(mouseGridPosition)) return;
+            if(!_selectedUnit.TrySpendActionPoints(m_selectedAction)) return;
+            
+            SetBusy();
+            m_selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+            OnActionStarted?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -90,13 +91,13 @@ public class UnitActionSystem : MonoBehaviour
 
     private void ClearBusy()
     {
-        OnBusyChanged?.Invoke(this, true);
+        OnBusyChanged?.Invoke(this, false);
         m_isBusy = false;
     }
 
     private void SetBusy()
     {
-        OnBusyChanged?.Invoke(this, false);
+        OnBusyChanged?.Invoke(this, true);
         m_isBusy = true;
     }
     
