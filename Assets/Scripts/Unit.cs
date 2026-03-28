@@ -1,12 +1,17 @@
+using System;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public static event EventHandler OnAnyActionPointsChanged;
+    
+    private const int ACTION_POINTS_MAX = 2;
+    
     private GridPosition m_currentGridPosition;
     private BaseAction[] m_baseActionArray;
     private MoveAction m_moveAction;
     private SpinAction m_spinAction;
-    private int m_actionPoint = 2;
+    private int m_actionPoint = ACTION_POINTS_MAX;
 
     void Awake()
     {
@@ -18,6 +23,8 @@ public class Unit : MonoBehaviour
 
     void Start()
     {
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        
         m_currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridPosition(m_currentGridPosition, this);
     }
@@ -42,10 +49,24 @@ public class Unit : MonoBehaviour
     {
         return m_actionPoint >= baseAction.GetActionPointsCost();
     }
+    
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        ResetSpendActionPoints();
+    }
 
     private void SpendActionPoints(BaseAction baseAction)
     {
         m_actionPoint -= baseAction.GetActionPointsCost();
+        
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void ResetSpendActionPoints()
+    {
+        m_actionPoint = ACTION_POINTS_MAX;
+        
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
     }
     
     public bool TrySpendActionPoints(BaseAction baseAction)

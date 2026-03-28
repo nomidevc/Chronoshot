@@ -701,6 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47da08b06e8103042ad47495f306c918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _endTurnButton: {fileID: 1723542838}
   _turnCountText: {fileID: 1785071747}
 --- !u!1 &410087039
 GameObject:
