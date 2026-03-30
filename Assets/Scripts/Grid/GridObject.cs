@@ -32,6 +32,18 @@ public class GridObject
     {
         return m_unitList.Count > 0;
     }
+    
+    public Unit GetUnit()
+    {
+        if (HasAnyUnit())
+        {
+            return m_unitList[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
 
     public override string ToString()
     {

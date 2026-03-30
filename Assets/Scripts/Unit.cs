@@ -5,6 +5,8 @@ public class Unit : MonoBehaviour
 {
     public static event EventHandler OnAnyActionPointsChanged;
     
+    [SerializeField] private bool _unitIsEnemy;
+    
     private const int ACTION_POINTS_MAX = 2;
     
     private GridPosition m_currentGridPosition;
@@ -52,7 +54,11 @@ public class Unit : MonoBehaviour
     
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        ResetSpendActionPoints();
+        if ((!TurnSystem.Instance.IsPLayerTurn() && _unitIsEnemy) ||
+            (TurnSystem.Instance.IsPLayerTurn() && !_unitIsEnemy))
+        {
+            ResetSpendActionPoints();
+        }
     }
 
     private void SpendActionPoints(BaseAction baseAction)
@@ -88,6 +94,8 @@ public class Unit : MonoBehaviour
     public BaseAction[] GetBaseActionArray() => m_baseActionArray;
     
     public GridPosition GetGridPosition() => m_currentGridPosition;
+    
+    public bool IsEnemy() => _unitIsEnemy;
 
     public override string ToString()
     {
