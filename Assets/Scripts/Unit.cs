@@ -84,6 +84,11 @@ public class Unit : MonoBehaviour
         }
         return false;
     }
+
+    public void TakeDamage()
+    {
+        Debug.Log(transform + " Take Damage");
+    }
     
     public MoveAction GetMoveAction() => m_moveAction;
     

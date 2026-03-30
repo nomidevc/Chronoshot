@@ -21,8 +21,7 @@ public class SpinAction : BaseAction
     
     public override void TakeAction(GridPosition gridPosition,Action onSpinComplete)
     {
-        m_onActionComplete = onSpinComplete;
-        m_isActive = true;
+        ActionStart(onSpinComplete);
         m_rotationAmount = 0f;
     }
 
@@ -39,8 +38,7 @@ public class SpinAction : BaseAction
 
     private void StopSpin()
     { 
-        m_onActionComplete?.Invoke();
-        m_isActive = false;
+        ActionComplete();
         m_rotationAmount = 0f;
     }
 

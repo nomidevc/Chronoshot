@@ -12,6 +12,18 @@ public abstract class BaseAction : MonoBehaviour
     {
         m_unit = GetComponent<Unit>();
     }
+
+    protected void ActionStart(Action onActionComplete)
+    {
+        m_isActive = true;
+        m_onActionComplete = onActionComplete;
+    }
+
+    protected void ActionComplete()
+    {
+        m_isActive = false;
+        m_onActionComplete?.Invoke();
+    }
     
     public abstract string GetActionName();
     

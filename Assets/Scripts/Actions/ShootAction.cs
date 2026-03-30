@@ -7,13 +7,87 @@ public class ShootAction : BaseAction
 {
     [SerializeField] private int _maxShootDistance = 7;
     
-    private float m_rotationAmount;
+    private enum State
+    {
+        Aiming,
+        Shooting,
+        Cooloff
+    }
     
+    private float m_stateTimer;
+    private State m_currentState;
+    private Unit m_targetUnit;
+    private bool canShoot;
+    
+    void Update()
+    {
+        if(!m_isActive) return;
+
+        m_stateTimer -= Time.deltaTime;
+
+        switch (m_currentState)
+        {
+            case State.Aiming:
+                RotateToTheTarget();
+                break;
+            case State.Shooting:
+                if (canShoot)
+                {
+                    Shoot();
+                    canShoot = false;
+                }
+                break;
+            case State.Cooloff:
+                break;
+        }
+        
+        if (m_stateTimer < 0f)
+        {
+            NextState();
+        }
+    }
+
+    private void RotateToTheTarget()
+    {
+        float rotationSpeed = 5f;
+        transform.forward = Vector3.Lerp(transform.forward, 
+            (m_targetUnit.transform.position - transform.position).normalized, 
+            rotationSpeed * Time.deltaTime);
+    }
+
+    private void Shoot()
+    {
+        m_targetUnit.TakeDamage();
+    }
+    
+    private void NextState()
+    {
+        switch (m_currentState)     
+        {
+            case State.Aiming:
+                m_currentState = State.Shooting;
+                float shootingStateTime = 0.5f;
+                m_stateTimer = shootingStateTime;
+                break;
+            case State.Shooting:
+                m_currentState = State.Cooloff;
+                float coolOffStateTime = 0.1f;
+                m_stateTimer = coolOffStateTime;
+                break;
+            case State.Cooloff:
+                ActionComplete();
+                break;
+        }
+    }
+
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        m_onActionComplete = onActionComplete;
-        m_isActive = true;
-        m_rotationAmount = 0f;
+        ActionStart(onActionComplete);
+        
+        m_currentState = State.Aiming;
+        float aimingStateTime = 0.1f;
+        m_stateTimer = aimingStateTime;
+        m_targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
     }
     public override List<GridPosition> GetValidActionGridPositionList()
     {

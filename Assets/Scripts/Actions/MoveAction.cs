@@ -36,9 +36,8 @@ public class MoveAction : BaseAction
         }
         else
         {
-            m_onActionComplete?.Invoke();
+            ActionComplete();
             _unitAnimator.SetBool("IsWalking", false);
-            m_isActive = false;
         }
         
         float rotationSpeed = 10f;
@@ -47,9 +46,8 @@ public class MoveAction : BaseAction
     
     public override void TakeAction(GridPosition gridPosition, Action onMoveComplete)
     {
-        m_onActionComplete = onMoveComplete;
+        ActionStart(onMoveComplete);
         m_targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        m_isActive = true;
     }
     
     public override List<GridPosition> GetValidActionGridPositionList()
