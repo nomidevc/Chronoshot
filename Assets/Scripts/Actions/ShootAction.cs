@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+    public Action OnUnitShooting;
+    
     [SerializeField] private int _maxShootDistance = 7;
     
     private enum State
@@ -17,7 +19,7 @@ public class ShootAction : BaseAction
     private float m_stateTimer;
     private State m_currentState;
     private Unit m_targetUnit;
-    private bool canShoot;
+    private bool canShoot = true;
     
     void Update()
     {
@@ -49,7 +51,7 @@ public class ShootAction : BaseAction
 
     private void RotateToTheTarget()
     {
-        float rotationSpeed = 5f;
+        float rotationSpeed = 10f;
         transform.forward = Vector3.Lerp(transform.forward, 
             (m_targetUnit.transform.position - transform.position).normalized, 
             rotationSpeed * Time.deltaTime);
@@ -57,6 +59,7 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
+        OnUnitShooting?.Invoke();
         m_targetUnit.TakeDamage();
     }
     
@@ -85,7 +88,7 @@ public class ShootAction : BaseAction
         ActionStart(onActionComplete);
         
         m_currentState = State.Aiming;
-        float aimingStateTime = 0.1f;
+        float aimingStateTime = 1f;
         m_stateTimer = aimingStateTime;
         m_targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
     }

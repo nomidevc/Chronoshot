@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
-    [SerializeField] private Animator _unitAnimator;
+    public Action<bool> OnUnitWalking;
+    
     [SerializeField] private int _maxMoveDistance = 1;
     
     private Vector3 m_targetPosition;
@@ -29,7 +30,7 @@ public class MoveAction : BaseAction
         float stoppingDistance = 0.1f;
         if(Vector3.Distance(transform.position, m_targetPosition) > stoppingDistance)
         {
-            _unitAnimator.SetBool("IsWalking", true);
+            OnUnitWalking?.Invoke(true);
             float moveSpeed = 5f;
             transform.position += moveDirection * (Time.deltaTime * moveSpeed);
             
@@ -37,7 +38,7 @@ public class MoveAction : BaseAction
         else
         {
             ActionComplete();
-            _unitAnimator.SetBool("IsWalking", false);
+            OnUnitWalking?.Invoke(false);
         }
         
         float rotationSpeed = 10f;
