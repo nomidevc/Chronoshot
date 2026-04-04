@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour
     private const int ACTION_POINTS_MAX = 2;
     
     private GridPosition m_currentGridPosition;
+    private HealthSystem m_healthSystem;
     private BaseAction[] m_baseActionArray;
     private MoveAction m_moveAction;
     private SpinAction m_spinAction;
@@ -17,6 +18,7 @@ public class Unit : MonoBehaviour
 
     void Awake()
     {
+        m_healthSystem = GetComponent<HealthSystem>();
         m_moveAction = GetComponent<MoveAction>();
         m_spinAction = GetComponent<SpinAction>();
         m_baseActionArray = GetComponents<BaseAction>();
@@ -26,6 +28,7 @@ public class Unit : MonoBehaviour
     void Start()
     {
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        m_healthSystem.OnDieAction += HealthSystem_OnDieAction;
         
         m_currentGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridPosition(m_currentGridPosition, this);
@@ -60,6 +63,12 @@ public class Unit : MonoBehaviour
             ResetSpendActionPoints();
         }
     }
+    
+    private void HealthSystem_OnDieAction()
+    {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(m_currentGridPosition, this);
+        Destroy(gameObject);
+    }
 
     private void SpendActionPoints(BaseAction baseAction)
     {
@@ -87,7 +96,7 @@ public class Unit : MonoBehaviour
 
     public void TakeDamage()
     {
-        Debug.Log(transform + " Take Damage");
+        m_healthSystem.TakeDamage(40);
     }
     
     public MoveAction GetMoveAction() => m_moveAction;
