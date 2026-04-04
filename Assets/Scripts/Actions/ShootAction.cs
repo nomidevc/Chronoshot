@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
-    public Action OnUnitShooting;
+    public Action<Unit, Unit> OnUnitShooting;
     
     [SerializeField] private int _maxShootDistance = 7;
+    
     
     private enum State
     {
@@ -40,6 +41,7 @@ public class ShootAction : BaseAction
                 }
                 break;
             case State.Cooloff:
+                canShoot = true;
                 break;
         }
         
@@ -59,7 +61,7 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
-        OnUnitShooting?.Invoke();
+        OnUnitShooting?.Invoke(m_targetUnit, m_unit);
         m_targetUnit.TakeDamage();
     }
     
