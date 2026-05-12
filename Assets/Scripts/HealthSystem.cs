@@ -6,8 +6,16 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
     public Action OnDieAction;
+    public Action OnHealthChangeAction;
     
     [SerializeField] private int _healthAmount = 100;
+    
+    private int m_healthAmountMax;
+
+    void Awake()
+    {
+        m_healthAmountMax = _healthAmount;
+    }
 
     public void TakeDamage(int damageAmount)
     {
@@ -19,11 +27,16 @@ public class HealthSystem : MonoBehaviour
             Die();
         }
         
-        Debug.Log(_healthAmount);
+        OnHealthChangeAction?.Invoke();
     }
     
     private void Die()
     {
         OnDieAction?.Invoke();
+    }
+    
+    public float GetHealthNormalized()
+    {
+        return (float)_healthAmount / m_healthAmountMax;
     }
 }
