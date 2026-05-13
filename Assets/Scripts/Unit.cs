@@ -109,6 +109,8 @@ public class Unit : MonoBehaviour
     
     public GridPosition GetGridPosition() => m_currentGridPosition;
     
+    public Vector3 GetWorldPosition() => transform.position;
+    
     public bool IsEnemy() => _unitIsEnemy;
 
     public override string ToString()

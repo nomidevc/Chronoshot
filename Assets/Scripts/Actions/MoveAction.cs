@@ -37,8 +37,8 @@ public class MoveAction : BaseAction
         }
         else
         {
-            ActionComplete();
             OnUnitWalking?.Invoke(false);
+            ActionComplete();
         }
         
         float rotationSpeed = 10f;
@@ -47,8 +47,8 @@ public class MoveAction : BaseAction
     
     public override void TakeAction(GridPosition gridPosition, Action onMoveComplete)
     {
-        ActionStart(onMoveComplete);
         m_targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        ActionStart(onMoveComplete);
     }
     
     public override List<GridPosition> GetValidActionGridPositionList()
